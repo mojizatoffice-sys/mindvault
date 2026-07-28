@@ -1,0 +1,12 @@
+# Core dependencies
+requests
+fastapi
+uvicorn[standard]
+pydantic
+
+# For hardware (Arduino)
+pyserial
+
+# Optional but recommended for better development
+colorama          # Better colored terminal (cross-platform)
+python-dotenv     # For future config

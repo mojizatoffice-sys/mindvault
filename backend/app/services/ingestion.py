@@ -75,7 +75,7 @@ def ingest_file(file_path: str, original_filename: str) -> dict:
         ids = ids,
         embeddings = embeddings,
         documents = documents,
-        metadata = metadata 
+        metadatas = metadata 
     )
     
     return {

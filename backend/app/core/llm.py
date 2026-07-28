@@ -1,7 +1,7 @@
 import ollama
 from app.core.config import settings
 
-def ollama_response(prompt: str, system:str = None) -> str:
+def get_llm_response(prompt: str, system:str = None) -> str:
     messages = []
     if system:
         messages.append({"role":"system", "content":system})
