@@ -6,3 +6,4 @@ chromadb
 ollama
 python-dotenv
 pydantic-settings
+langchain-text-splitters
