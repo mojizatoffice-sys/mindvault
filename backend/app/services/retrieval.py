@@ -1,10 +1,12 @@
 from app.core.llm import get_llm_response, get_embedding
 from app.services.ingestion import collection
 
-SYSTEM_PROMPT = """You are MindVault, a helpful assistant that answers questions strictly based on the provided context from the user's documents.
-If the answer is not in the context, say "I couldn't find this information in your documents."
-Always be concise and accurate.
-At the end of your answer, mention the source file if possible.
+SYSTEM_PROMPT = """You are MindVault, a precise assistant that answers questions using only the provided context from the user's documents.
+Rules:
+- Use only the information in the context.
+- If the answer is not in the context, clearly say: "I could not find this information in your uploaded documents."
+- Be concise and accurate.
+- At the end, list the source file(s) you used.
 """
 
 def retrieve_relevant_chunks(query: str, n_results: int = 4)-> list[dict]:
@@ -35,7 +37,10 @@ def chat_with_documents(question:str)-> dict:
         }
     context = "\n\n".join([f"[Source: {c['source']}]\n{c['text']}" for c in relevant_chunks])
     prompt = f""" Context from user's documents:
+    
     {context}
+    
+    ---------
     
     Question: {question}
     

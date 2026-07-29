@@ -12,7 +12,7 @@ from app.services.retrieval import chat_with_documents
 Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
 Path(settings.CHROMA_PATH).mkdir(parents=True, exist_ok=True)
 
-app = FastAPI(title="MindVault", version="0.1.0")
+app = FastAPI(title="MindVault", version="0.1.1")
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,9 +27,12 @@ class ChatResponse(BaseModel):
 
 @app.get("/")
 def root():
-    return {"message":"MindVault is running.",
-            "description":"Fully Offline personal knowledge base."
-            }
+    return {
+        "name": "MindVault",
+        "status": "running",
+        "version": "0.1.1",
+        "description": "Fully offline personal knowledge base"
+        }
 
 @app.get("/health")
 def health():
@@ -42,6 +45,7 @@ async def upload_document(file: UploadFile = File(...)):
     
     if ext not in allowed:
         raise HTTPException(400, "Only PDF, TXT and MD files are supported.")
+    
     file_path =  os.path.join(settings.UPLOAD_DIR, file.filename)
     
     with open(file_path,"wb") as buffer:
@@ -57,5 +61,6 @@ async def upload_document(file: UploadFile = File(...)):
 def chat(request: ChatResponse):
     if not request.question.strip():
         raise HTTPException(400, "Question cannot be empty")
-    result = chat_with_documents(request.question)
-    return result
+    
+    return chat_with_documents(request.question)
+
