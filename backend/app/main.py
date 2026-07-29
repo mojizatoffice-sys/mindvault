@@ -64,3 +64,6 @@ def chat(request: ChatResponse):
     
     return chat_with_documents(request.question)
 
+@app.get("/documents")
+def get_all_docs():
+    return [i for i in os.listdir("./data/uploads")  if os.path.isfile("data/uploads/"+i)] 
